@@ -1,0 +1,350 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AntTweakBarSample",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/AntTweakBar/AntTweakBarSample",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/AntTweakBar/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "AtmosphereSample",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/Atmosphere/AtmosphereSample",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/Atmosphere/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "GLTFViewer",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Samples/GLTFViewer/GLTFViewer",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Samples/GLTFViewer/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "GhostCubeScene",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/unityplugin/GhostCubeScene/GhostCubeScene",
+            "args": ["-mode gl"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/unityplugin/GhostCubeScene/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial00_HelloLinux",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux/Tutorial00_HelloLinux",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial00_HelloLinux",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial01_HelloTriangle",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/Tutorial01_HelloTriangle",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial01_HelloTriangle/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial02_Cube",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial02_Cube/Tutorial02_Cube",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial02_Cube/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial03_Texturing",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial03_Texturing/Tutorial03_Texturing",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial03_Texturing/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial04_Instancig",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial04_Instancing/Tutorial04_Instancing",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial04_Instancing/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial05_TextureArray",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial05_TextureArray/Tutorial05_TextureArray",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial05_TextureArray/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial06_Multithreading",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial06_Multithreading/Tutorial06_Multithreading",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial06_Multithreading/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial07_GeometryShader",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial07_GeometryShader/Tutorial07_GeometryShader",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial07_GeometryShader/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial08_Tessellation",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial08_Tessellation/Tutorial08_Tessellation",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial08_Tessellation/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial09_Quads",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial09_Quads/Tutorial09_Quads",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial09_Quads/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial10_DataStreaming",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial10_DataStreaming/Tutorial10_DataStreaming",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial10_DataStreaming/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial11_ResourceUpdates",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/Tutorial11_ResourceUpdates",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial11_ResourceUpdates/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Tutorial12_RenderTarget",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/DiligentSamples/Tutorials/Tutorial12_RenderTarget/Tutorial12_RenderTarget",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/DiligentSamples/Tutorials/Tutorial12_RenderTarget/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "TestApp",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/cmk_build/Tests/TestApp/TestApp",
+            "args": ["-mode vk"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Tests/TestApp/assets",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
