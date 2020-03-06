@@ -1,7 +1,7 @@
 
 #include "UnityGraphicsGLES_IOS_Impl.h"
-#include "Errors.h"
-#include "DebugUtilities.h"
+#include "Errors.hpp"
+#include "DebugUtilities.hpp"
 
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGL.h>

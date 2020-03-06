@@ -1,14 +1,18 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*
+ *  Copyright 2019-2020 Diligent Graphics LLC
+ *  Copyright 2015-2019 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF ANY PROPRIETARY RIGHTS.
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  In no event and under no legal theory, whether in tort (including negligence), 
  *  contract, or otherwise, unless required by applicable law (such as deliberate 
@@ -21,12 +25,13 @@
  *  of the possibility of such damages.
  */
 
+#include <algorithm>
+
 #include "GhostCubeScene.h"
 #include "PlatformDefinitions.h"
-#include "BasicMath.h"
-#include <algorithm>
+#include "BasicMath.hpp"
 #include "GraphicsUtilities.h"
-#include "MapHelper.h"
+#include "MapHelper.hpp"
 #include "CommonlyUsedStates.h"
 
 #if D3D12_SUPPORTED
@@ -148,21 +153,22 @@ void GhostCubeScene::Update(double CurrTime, double ElapsedTime)
 
 void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
 {
-    auto pDevice = m_DiligentGraphics->GetDevice();
-    auto pCtx = m_DiligentGraphics->GetContext();
+    auto* pDevice = m_DiligentGraphics->GetDevice();
+    auto* pCtx = m_DiligentGraphics->GetContext();
+    auto* pSwapChain = m_DiligentGraphics->GetSwapChain();
     const auto& DeviceCaps = pDevice->GetDeviceCaps();
     const bool bIsGL = DeviceCaps.IsGLDevice();
     auto ReverseZ = m_DiligentGraphics->UsesReverseZ();
 
     // In OpenGL, render targets must be bound to the pipeline to be cleared
-    ITextureView *pRTVs[] = { m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET) };
+    ITextureView *pRTV = m_pRenderTarget->GetDefaultView(TEXTURE_VIEW_RENDER_TARGET);
     ITextureView *pDSV = m_pDepthBuffer->GetDefaultView(TEXTURE_VIEW_DEPTH_STENCIL);
-    pCtx->SetRenderTargets(1, pRTVs, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pCtx->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     const float ClearColor[] = { 0.f, 0.2f, 0.5f, 1.0f };
-    pCtx->ClearRenderTarget(pRTVs[0], ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pCtx->ClearRenderTarget(pRTV, ClearColor, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->ClearDepthStencil(pDSV, CLEAR_DEPTH_FLAG, ReverseZ ? 0.f : 1.f, 0, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-    if (DeviceCaps.DevType == DeviceType::D3D12)
+    if (DeviceCaps.DevType == RENDER_DEVICE_TYPE_D3D12)
     {
         // D3D12 context must be flushed so that the commands are submitted before the
         // commands issued by the plugin
@@ -194,7 +200,9 @@ void GhostCubeScene::Render(UnityRenderingEvent RenderEventFunc)
     
     // We need to invalidate the context state since the plugin has used d3d11 context
     pCtx->InvalidateState();
-    pCtx->SetRenderTargets(0, nullptr, nullptr, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
+    pRTV = pSwapChain->GetCurrentBackBufferRTV();
+    pDSV = pSwapChain->GetDepthBufferDSV();
+    pCtx->SetRenderTargets(1, &pRTV, pDSV, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
     pCtx->SetPipelineState(m_pMirrorPSO);
     pCtx->CommitShaderResources(m_pMirrorSRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 

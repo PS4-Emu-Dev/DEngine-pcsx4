@@ -86,10 +86,10 @@ PRIVATE
 
 target_link_libraries(GhostCubeScene
 PRIVATE
-    BuildSettings
-    NativeAppBase
+    Diligent-BuildSettings
+    Diligent-NativeAppBase
     UnityEmulator
-    TargetPlatform
+    Diligent-TargetPlatform
 )
 if(PLATFORM_ANDROID)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
@@ -97,6 +97,9 @@ elseif (PLATFORM_LINUX)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared GL X11)
 elseif (PLATFORM_MACOS OR PLATFORM_IOS)
     target_link_libraries(GhostCubeScene PRIVATE GhostCubePlugin-shared)
+endif()
+if(D3D12_SUPPORTED)
+    target_link_libraries(GhostCubeScene PRIVATE d3d12.lib)
 endif()
 
 set_common_target_properties(GhostCubeScene)

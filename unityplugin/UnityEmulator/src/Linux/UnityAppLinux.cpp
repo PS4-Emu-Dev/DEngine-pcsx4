@@ -24,14 +24,14 @@
 #include "UnityGraphicsEmulator.h"
 #include "UnityAppBase.h"
 #include "IUnityInterface.h"
-#include "Errors.h"
+#include "Errors.hpp"
 
 class UnityAppLinux : public UnityAppBase
 {
 public:
     UnityAppLinux()
     {
-        m_DeviceType = Diligent::DeviceType::OpenGL;
+        m_DeviceType = Diligent::RENDER_DEVICE_TYPE_GL;
     }
 
     virtual void OnGLContextCreated(Display* display, Window window)override final
@@ -40,9 +40,10 @@ public:
         InitScene();
     }
 #if VULKAN_SUPPORTED
-    virtual void InitVulkan(xcb_connection_t* connection, uint32_t window)override final
+    virtual bool InitVulkan(xcb_connection_t* connection, uint32_t window)override final
     {
         UNSUPPORTED("Vulkan is not supported for this application");
+        return false;
     }
 #endif
 };

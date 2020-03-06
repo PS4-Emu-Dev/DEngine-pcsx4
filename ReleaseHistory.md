@@ -1,9 +1,84 @@
-## Current Progress
+
+## v2.4.d
+
+### API Changes
+
+* Added Queries (API Version 240051)
+* Added `AdapterType` member to `DeviceCaps` struct (API Version 240048)
+* Added `IDeviceContextGL::SetSwapChain` and `IRenderDeviceGL::CreateDummyTexture` methods (API Version 240047)
+* Removed `IDeviceContext::SetSwapChain` method (API Version 240046)
+* Renamed `MAP_FLAG_DO_NOT_SYNCHRONIZE` flag to `MAP_FLAG_NO_OVERWRITE` (API Version 240045)
+* Added `GetVkInstance` and `GetVkPhysicalDevice` methods to `IRenderDeviceVk` interface (API Version 240044)
+* Added `HLSLSemantic` member to `LayoutElement` struct (API Version 240042)
+* Added `ResolveTextureSubresource` device context command, removed `SamplesCount` member of the
+  `SwapChainDesc` (API Version 240041)
+* Added `APIVersion` member to `EngineCreateInfo` struct (API Version 240040)
+* Added `IDeviceObject::GetUniqueID` method (API Version 240039)
+* Added `IDeviceContextD3D12::LockCommandQueue`, `IDeviceContextD3D12::UnlockCommandQueue`,
+  `IDeviceContextVk::LockCommandQueue`, and `IDeviceContextVk::UnlockCommandQueue` methods (API Version 240038)
+* Added `EnableGPUBasedValidation` member to `EngineD3D12CreateInfo` struct (API Version 240037)
+* Added `DRAW_FLAG_RESOURCE_BUFFERS_INTACT` flag (API Version 240036)
+* Added `HLSLVersion`, `GLSLVersion` and `GLESSLVersion` to `ShaderCreateInfo` struct (API Version 240035)
+* Renamed `EngineD3D11DebugFlags` to `D3D11_DEBUG_FLAGS` (API Version 240034)
+* Split up `Draw` command into `Draw`, `DrawIndexed`, `DrawIndirect` and `DrawIndexedIndirect`.
+  Split up `DispatchCompute` command into `DispatchCompute` and `DispatchComputeInidrect` (API Version 240033).
+* Enabled bindless resources
+* Removed `SHADER_PROFILE` enum (API Version 240032)
+* Added `DIRECT3D_FEATURE_LEVEL` and `DIRECT3D_FEATURE_LEVEL MinimumFeatureLevel` member to 
+  `EngineD3D11CreateInfo` and `EngineD3D12CreateInfo` structs (API Version 240032)
+* Updated `IEngineFactoryD3D11::EnumerateHardwareAdapters`, `IEngineFactoryD3D11::EnumerateDisplayModes`,
+  `IEngineFactoryD3D12::EnumerateHardwareAdapters`, `IEngineFactoryD3D12::EnumerateDisplayModes` 
+  to take minimum feature level. (API Version 240032)
+* Added `bBindlessSupported` member to `DeviceCaps` struct. (API Version 240032)
+
+### General
+
+* Enabled automated unit testing, format validation and static code analysis
+* Added [Tutorial16 - Bindless Resources](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial16_BindlessResources)
+* Added [Tutorial17 - MSAA](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial17_MSAA)
+* Added [Tutorial18 - Queries](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial18_Queries)
+* Removed RenderScript and Lua
+
+## v2.4.c
+
+### General
 
 * Enabled Vulkan on iOS
+* Replaced AntTweakBar UI library with dear imgui
 * Added [GLTF2.0 loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader)
   and [PBR renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer)
 * Added [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer)
+* Added [Shadowing Component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows)
+  and [Shadows Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows)
+* Added [Dear Imgui demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo)
+* Added [Tutorial13 - Shadow Map](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial13_ShadowMap)
+* Added [Tutorial14 - Compute Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial14_ComputeShader)
+* Added [Tutorial15 - Multiple Windows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial15_MultipleWindows)
+* Removed AntTweakBar sample
+
+### API changes
+
+* Moved `NumDeferredContexts` parameter from factory functions `IEngineFactoryD3D11::CreateDeviceAndContextsD3D11`,
+  `IEngineFactoryD3D12::CreateDeviceAndContextsD3D12` and `IEngineFactoryVk::CreateDeviceAndContextsVk` to
+  `EngineCreateInfo` struct.
+* Renamed `USAGE_CPU_ACCESSIBLE` -> `USAGE_STAGING`
+* Added `SWAP_CHAIN_USAGE_FLAGS` enum
+* Replaced overloaded `IPipelineState::GetStaticShaderVariable()` with `IPipelineState::GetStaticVariableByName()` and `IPipelineState::GetStaticVariableByIndex()`
+* Replaced overloaded `IShaderResourceBinding::GetVariable()` with `IShaderResourceBinding::GetVariableByName()` and `IShaderResourceBinding::GetVariableByIndex()`
+* Made `IShaderSourceInputStreamFactory` derived from `IObject`;
+  added `IEngineFactory::CreateDefaultShaderSourceStreamFactory()` method;
+  added `IRenderDevice::GetEngineFactory()` method (API Version 240021)
+* Added `DRAW_FLAG_VERIFY_DRAW_ATTRIBS`, `DRAW_FLAG_VERIFY_RENDER_TARGETS`, and `DRAW_FLAG_VERIFY_ALL` flags (API Version 240022)
+* `TEXTURE_VIEW_FLAGS` enum and `Flags` member to `TextureViewDesc` structure (API Version 240023)
+* Added `IShaderResourceVariable::IsBound()` method (API Version 240024)
+* Added `Diligent-` prefix to project names to avoid name conflicts.
+* Added `IDeviceContextD3D12::GetD3D12CommandList` method
+* Added `IDeviceContext::WaitForFence()` method (API Version 240027)
+* Added `IDeviceContext::WaitForIdle()` method (API Version 240028)
+* Added `IRenderDevice::IdleGPU()` method (API Version 240029)
+* Added `EngineD3D12CreateInfo::EnableDebugLayer` member (API Version 240030)
+* Added `EngineD3D12CreateInfo::BreakOnError` and `EngineD3D12CreateInfo::BreakOnCorruption` members (API Version 240031)
+
 
 ## v2.4.b
 

@@ -1,7 +1,7 @@
 
 #include "SamplePlugin.h"
 #include "GraphicsUtilities.h"
-#include "MapHelper.h"
+#include "MapHelper.hpp"
 
 using namespace Diligent;
 
@@ -51,7 +51,7 @@ SamplePlugin::SamplePlugin(Diligent::IRenderDevice *pDevice, bool UseReverseZ, T
         PSODesc.GraphicsPipeline.DSVFormat = DSVFormat;
         PSODesc.GraphicsPipeline.PrimitiveTopology = PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
         PSODesc.GraphicsPipeline.RasterizerDesc.CullMode = CULL_MODE_BACK;
-        PSODesc.GraphicsPipeline.RasterizerDesc.FrontCounterClockwise = deviceType == DeviceType::D3D11 || deviceType == DeviceType::D3D12 ? true : false;
+        PSODesc.GraphicsPipeline.RasterizerDesc.FrontCounterClockwise = deviceType == RENDER_DEVICE_TYPE_D3D11 || deviceType == RENDER_DEVICE_TYPE_D3D12 ? true : false;
         PSODesc.GraphicsPipeline.DepthStencilDesc.DepthFunc = UseReverseZ ? COMPARISON_FUNC_GREATER_EQUAL : COMPARISON_FUNC_LESS_EQUAL;
 
         PSODesc.GraphicsPipeline.BlendDesc.RenderTargets[0].BlendEnable = True;
@@ -166,6 +166,6 @@ void SamplePlugin::Render(Diligent::IDeviceContext *pContext, const float4x4 &Vi
     pContext->SetPipelineState(m_PSO);
     pContext->CommitShaderResources(m_SRB, RESOURCE_STATE_TRANSITION_MODE_TRANSITION);
 
-    DrawAttribs DrawAttrs(36, VT_UINT32, DRAW_FLAG_VERIFY_ALL);
-    pContext->Draw(DrawAttrs);
+    DrawIndexedAttribs DrawAttrs(36, VT_UINT32, DRAW_FLAG_VERIFY_ALL);
+    pContext->DrawIndexed(DrawAttrs);
 }

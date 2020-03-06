@@ -7,8 +7,7 @@ branches:
     - master
 
 image:
-#- Visual Studio 2015
-- Visual Studio 2017
+- Visual Studio 2019
 
 environment: 
   matrix:
@@ -16,36 +15,43 @@ environment:
     - platform: x64
       configuration: Debug
       cmake_args:
+      platform_name: Windows
       
     # Win32/x64/Release
     - platform: x64
       configuration: Release
       cmake_args:
+      platform_name: Windows
 
     # Win32-8.1SDK/x64/Release
     - platform: x64
       configuration: Release
       cmake_args: -D CMAKE_SYSTEM_VERSION=8.1
+      platform_name: Windows8.1
 
     # UWP/x64/Debug
     - platform: x64
       configuration: Debug
       cmake_args: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
 
     # UWP/x64/Release
     - platform: x64
       configuration: Release
       cmake_args: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
 
     # Win32/x86/Release
     - platform: Win32
       configuration: Release
       cmake_args:
+      platform_name: Windows
 
     # UWP/x86/Release
     - platform: Win32
       configuration: Release
       cmake_args: -D CMAKE_SYSTEM_NAME=WindowsStore -D CMAKE_SYSTEM_VERSION=10.0
+      platform_name: UWP
 
 # clone directory
 clone_folder: c:\projects\diligentengine
@@ -53,24 +59,29 @@ clone_folder: c:\projects\diligentengine
 install:
   # clone submodules
   - git submodule update --init --recursive
-
-  # Install a recent CMake
-  - set CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.13.2/cmake-3.13.2-win64-x64.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\deps > nul
-  - move C:\projects\deps\cmake-* C:\projects\deps\cmake # Move to a version-agnostic directory
-  - set PATH=C:\projects\deps\cmake\bin;%PATH%
-  - cmake --version
-  - echo %PLATFORM%
-  - if "%PLATFORM%"=="x64" ( set generator="Visual Studio 15 2017 Win64" ) else ( set generator="Visual Studio 15 2017" )
-  
+  - DiligentCore\BuildTools\Scripts\appveyor\install.bat
+ 
 before_build:
-  - cd c:\projects\diligentengine
-  - echo %generator%
-  - echo %cmake_args%
-  - cmake -D ENABLE_TESTS=TRUE %cmake_args% -H. -B./cmk_build -G %generator%
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\FormatValidation'
+  - validate_format_win.bat
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentTools\BuildTools\FormatValidation'
+  - validate_format_win.bat
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentFX\BuildTools\FormatValidation'
+  - validate_format_win.bat
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentSamples\BuildTools\FormatValidation'
+  - validate_format_win.bat
+  - 'cd %APPVEYOR_BUILD_FOLDER%'
+  - echo %PLATFORM%
+  - echo.%cmake_args%
+  - cmake -D DILIGENT_BUILD_TESTS=TRUE %cmake_args% -S . -B ./build -G "Visual Studio 16 2019" -A %PLATFORM%
 
 build:
-  project: c:\projects\diligentengine\cmk_build\DiligentEngine.sln
+  project: '%APPVEYOR_BUILD_FOLDER%\build\DiligentEngine.sln'
   verbosity: minimal
   parallel: true
+
+test_script:
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentCore\Tests\DiligentCoreAPITest\assets'
+  - '%APPVEYOR_BUILD_FOLDER%\DiligentCore\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build\DiligentCore'
+  - 'cd %APPVEYOR_BUILD_FOLDER%\DiligentSamples\Tests\GoldenImages'
+  - '%APPVEYOR_BUILD_FOLDER%\DiligentSamples\BuildTools\Scripts\appveyor\run_tests.bat %APPVEYOR_BUILD_FOLDER%\build compare'

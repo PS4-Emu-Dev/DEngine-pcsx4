@@ -13,8 +13,8 @@
 #include "RenderDevice.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
-#include "RefCntAutoPtr.h"
-#include "ThreadSignal.h"
+#include "RefCntAutoPtr.hpp"
+#include "ThreadSignal.hpp"
 #include <map>
 #include <mutex>
 #include <atomic>
@@ -28,22 +28,9 @@
 
 namespace AsteroidsDE {
 
-struct DrawConstantBuffer {
-    DirectX::XMFLOAT4X4 mWorld;
-    DirectX::XMFLOAT4X4 mViewProjection;
-    DirectX::XMFLOAT3 mSurfaceColor;
-    float unused0;
-    DirectX::XMFLOAT3 mDeepColor;
-    float unused1;
-};
-
-struct SkyboxConstantBuffer {
-    DirectX::XMFLOAT4X4 mViewProjection;
-};
-
 class Asteroids {
 public:
-    Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::DeviceType DevType);
+    Asteroids(const Settings &settings, AsteroidsSimulation* asteroids, GUI* gui, HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType);
     ~Asteroids();
 
     void Render(float frameTime, const OrbitCamera& camera, const Settings& settings);
@@ -57,13 +44,14 @@ private:
     void InitializeTextureData();
     void CreateGUIResources();
     void RenderSubset(Diligent::Uint32 SubsetNum, Diligent::IDeviceContext *pCtx, const OrbitCamera& camera, Diligent::Uint32 startIdx, Diligent::Uint32 numAsteroids);
-    void InitDevice(HWND hWnd, Diligent::DeviceType DevType);
+    void InitDevice(HWND hWnd, Diligent::RENDER_DEVICE_TYPE DevType);
 
     enum class BindingMode
     {
         Dynamic = 0,
-        Mutable = 1,
-        TextureMutable = 2
+        Mutable,
+        TextureMutable,
+        Bindless
     }m_BindingMode = BindingMode::TextureMutable;
 
     AsteroidsSimulation*        mAsteroids = nullptr;
@@ -95,6 +83,8 @@ private:
 
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mIndexBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mVertexBuffer;
+    Diligent::RefCntAutoPtr<Diligent::IBuffer>  mInstanceIDBuffer;
+    std::vector<Diligent::RefCntAutoPtr<Diligent::IBuffer>>  mAsteroidsDataBuffers;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mDrawConstantBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mSpriteVertexBuffer;
     Diligent::RefCntAutoPtr<Diligent::IBuffer>  mSkyboxConstantBuffer;

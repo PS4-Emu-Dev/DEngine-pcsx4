@@ -208,7 +208,7 @@ LRESULT CALLBACK WindowProc(
                 return 0;
             case 'B':
                 if (gSettings.mode == Settings::RenderMode::DiligentD3D12 || gSettings.mode == Settings::RenderMode::DiligentVulkan) {
-                    gSettings.resourceBindingMode = (gSettings.resourceBindingMode + 1) % 3;
+                    gSettings.resourceBindingMode = (gSettings.resourceBindingMode + 1) % 4;
                     gUpdateWorkload = true;
                 }
                 return 0;
@@ -339,15 +339,15 @@ int InitWorkload(HWND hWnd, AsteroidsSimulation &asteroids)
         break;
 
         case Settings::RenderMode::DiligentD3D11:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D11);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_D3D11);
         break;
 
         case Settings::RenderMode::DiligentD3D12:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::D3D12);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_D3D12);
         break;
 
         case Settings::RenderMode::DiligentVulkan:
-            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::DeviceType::Vulkan);
+            gWorkloadDE = new AsteroidsDE::Asteroids(gSettings, &asteroids, &gGUI, hWnd, Diligent::RENDER_DEVICE_TYPE_VULKAN);
         break;
     }
 
@@ -480,10 +480,10 @@ int main(int argc, char** argv)
 
     if (gSettings.mode == Settings::RenderMode::Undefined)
     {
-        if (gVulkanAvailable)
-            gSettings.mode = Settings::RenderMode::DiligentVulkan;
-        else if (gd3d12Available)
+        if (gd3d12Available)
             gSettings.mode = Settings::RenderMode::DiligentD3D12;
+        else if (gVulkanAvailable)
+            gSettings.mode = Settings::RenderMode::DiligentVulkan;
         else
             gSettings.mode = Settings::RenderMode::DiligentD3D11;
     }
@@ -602,9 +602,10 @@ int main(int argc, char** argv)
                     gWorkloadDE->GetPerfCounters(updateTime, renderTime);
                     switch (gSettings.resourceBindingMode)
                     {
-                        case 0: resBindModeStr = "-d";break;
-                        case 1: resBindModeStr = "-m";break;
-                        case 2: resBindModeStr = "-tm";break;
+                        case 0: resBindModeStr = "-dyn";break;
+                        case 1: resBindModeStr = "-mut";break;
+                        case 2: resBindModeStr = "-tex_mut";break;
+                        case 3: resBindModeStr = "-bindless";break;
                     }
                 break;
             }

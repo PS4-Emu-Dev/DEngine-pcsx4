@@ -1,14 +1,18 @@
-/*     Copyright 2015-2019 Egor Yusov
+/*
+ *  Copyright 2019-2020 Diligent Graphics LLC
+ *  Copyright 2015-2019 Egor Yusov
  *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF ANY PROPRIETARY RIGHTS.
+ *  
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *  
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  *
  *  In no event and under no legal theory, whether in tort (including negligence), 
  *  contract, or otherwise, unless required by applicable law (such as deliberate 
@@ -40,8 +44,8 @@
 #endif
 
 #include "UnityAppBase.h"
-#include "StringTools.h"
-#include "Errors.h"
+#include "StringTools.hpp"
+#include "Errors.hpp"
 
 using namespace Diligent;
 
@@ -72,19 +76,19 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
         pos += strlen(Key);
         if (_stricmp(pos, "D3D11") == 0)
         {
-            m_DeviceType = DeviceType::D3D11;
+            m_DeviceType = RENDER_DEVICE_TYPE_D3D11;
         }
         else if (_stricmp(pos, "D3D12") == 0)
         {
-            m_DeviceType = DeviceType::D3D12;
+            m_DeviceType = RENDER_DEVICE_TYPE_D3D12;
         }
         else if (_stricmp(pos, "GL") == 0)
         {
-            m_DeviceType = DeviceType::OpenGL;
+            m_DeviceType = RENDER_DEVICE_TYPE_GL;
         }
         else if (_stricmp(pos, "VK") == 0)
         {
-            m_DeviceType = DeviceType::Vulkan;
+            m_DeviceType = RENDER_DEVICE_TYPE_VULKAN;
         }
         else
         {
@@ -94,14 +98,14 @@ void UnityAppBase::ProcessCommandLine(const char *CmdLine)
     else
     {
         LOG_INFO_MESSAGE("Device type is not specified. Using D3D11 device");
-        m_DeviceType = DeviceType::D3D11;
+        m_DeviceType = RENDER_DEVICE_TYPE_D3D11;
     }
 
     switch (m_DeviceType)
     {
-        case DeviceType::D3D11: m_AppTitle.append(" (D3D11)"); break;
-        case DeviceType::D3D12: m_AppTitle.append(" (D3D12)"); break;
-        case DeviceType::OpenGL: m_AppTitle.append(" (OpenGL)"); break;
+        case RENDER_DEVICE_TYPE_D3D11: m_AppTitle.append(" (D3D11)"); break;
+        case RENDER_DEVICE_TYPE_D3D12: m_AppTitle.append(" (D3D12)"); break;
+        case RENDER_DEVICE_TYPE_GL:    m_AppTitle.append(" (OpenGL)"); break;
         default: UNEXPECTED("Unknown device type");
     }
 }
@@ -118,7 +122,7 @@ void UnityAppBase::InitGraphics(
    switch (m_DeviceType)
    {
 #if D3D11_SUPPORTED
-        case DeviceType::D3D11:
+        case RENDER_DEVICE_TYPE_D3D11:
         {
             auto &GraphicsD3D11Emulator = UnityGraphicsD3D11Emulator::GetInstance();
             GraphicsD3D11Emulator.CreateD3D11DeviceAndContext();
@@ -135,7 +139,7 @@ void UnityAppBase::InitGraphics(
 #endif
 
 #if D3D12_SUPPORTED
-        case DeviceType::D3D12:
+        case RENDER_DEVICE_TYPE_D3D12:
         {
             auto &GraphicsD3D12Emulator = UnityGraphicsD3D12Emulator::GetInstance();
             GraphicsD3D12Emulator.CreateD3D12DeviceAndCommandQueue();
@@ -152,8 +156,8 @@ void UnityAppBase::InitGraphics(
 #endif
 
 #if GL_SUPPORTED || GLES_SUPPORTED
-        case DeviceType::OpenGL:
-        case DeviceType::OpenGLES:
+        case RENDER_DEVICE_TYPE_GL:
+        case RENDER_DEVICE_TYPE_GLES:
         {
 #if !PLATFORM_MACOS
             VERIFY_EXPR(NativeWindowHandle != nullptr);
@@ -198,7 +202,7 @@ void UnityAppBase::InitScene()
    m_Scene->SetDiligentGraphicsAdapter(m_DiligentGraphics.get());
    m_Scene->OnGraphicsInitialized();
 #if D3D12_SUPPORTED
-   if (m_DeviceType == DeviceType::D3D12)
+   if (m_DeviceType == RENDER_DEVICE_TYPE_D3D12)
    {
        UnityGraphicsD3D12Emulator::GetInstance().SetTransitionHandler(m_Scene->GetStateTransitionHandler());
    }
