@@ -118,8 +118,6 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
         {
             EngineD3D11CreateInfo EngineCI;
             EngineCI.NumDeferredContexts = mNumSubsets - 1;
-            EngineCI.DebugFlags          = D3D11_DEBUG_FLAG_CREATE_DEBUG_DEVICE |
-                D3D11_DEBUG_FLAG_VERIFY_COMMITTED_SHADER_RESOURCES;
 
 #    if ENGINE_DLL
             if (GetEngineFactoryD3D11 == nullptr)
@@ -139,8 +137,7 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
             EngineD3D12CreateInfo EngineCI;
             EngineCI.NumDeferredContexts             = mNumSubsets - 1;
             EngineCI.GPUDescriptorHeapDynamicSize[0] = 65536 * 4;
-            EngineCI.GPUDescriptorHeapSize[0]        = 65536;    // For mutable mode
-            EngineCI.NumCommandsToFlushCmdList       = UINT_MAX; // Never flush the context while recording commands
+            EngineCI.GPUDescriptorHeapSize[0]        = 65536; // For mutable mode
 #    ifndef _DEBUG
             EngineCI.DynamicDescriptorAllocationChunkSize[0] = 8192;
 #    endif
@@ -160,9 +157,8 @@ void Asteroids::InitDevice(HWND hWnd, RENDER_DEVICE_TYPE DevType)
         case RENDER_DEVICE_TYPE_VULKAN:
         {
             EngineVkCreateInfo EngineCI;
-            EngineCI.NumDeferredContexts         = mNumSubsets - 1;
-            EngineCI.DynamicHeapSize             = 64 << 20;
-            EngineCI.NumCommandsToFlushCmdBuffer = UINT_MAX; // Never flush the context while recording commands
+            EngineCI.NumDeferredContexts = mNumSubsets - 1;
+            EngineCI.DynamicHeapSize     = 64 << 20;
 #    if ENGINE_DLL
             if (GetEngineFactoryVulkan == nullptr)
                 GetEngineFactoryVulkan = LoadGraphicsEngineVk();
@@ -1024,9 +1020,13 @@ void Asteroids::Render(float frameTime, const OrbitCamera& camera, const Setting
         // Reset mRenderSubsetsSignal while all threads are waiting for mUpdateSubsetsSignal
         mRenderSubsetsSignal.Reset();
 
+        mCmdListPtrs.resize(mCmdLists.size());
+        for (size_t i = 0; i < mCmdLists.size(); ++i)
+            mCmdListPtrs[i] = mCmdLists[i];
+        mDeviceCtxt->ExecuteCommandLists(static_cast<Uint32>(mCmdListPtrs.size()), mCmdListPtrs.data());
+
         for (auto& cmdList : mCmdLists)
         {
-            mDeviceCtxt->ExecuteCommandList(cmdList);
             // Release command lists now to release all outstanding references
             // In d3d11 mode, command lists hold references to the swap chain's back buffer
             // that cause swap chain resize to fail

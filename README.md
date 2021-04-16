@@ -39,6 +39,7 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
   * [Automatic or explicit control over resource state transitions](http://diligentgraphics.com/2018/12/09/resource-state-management/)
   * Descriptor and memory management
   * Shader resource reflection
+  * Ray-tracing, mesh shaders, bindless resources, and other state of the art capabilities
 * Extensive validation and error reporting
 * Modern c++ features to make the code fast and reliable
 * Consistent high quality is ensured by continuous integration
@@ -57,14 +58,19 @@ It is distributed under [Apache 2.0 license](License.txt) and is free to use.
 
 ## Supported Plaforms and Low-Level Graphics APIs
 
-| Platform                                                                                                                                        | D3D11              | D3D12              |  OpenGL            | Vulkan                                                                        | OpenGLES           |  Build Status                    |
-| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ----------------------------------------------------------------------------- | ------------------ | -------------------------------- |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Win32 (Windows desktop)| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:                                                            | -                  |  [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows     | :heavy_check_mark: | :heavy_check_mark: | -                  | -                                                                             | -                  |  [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                    | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:                                                            | -                  |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | -                  |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android                | -                  | -                  | -                  | :heavy_check_mark:                                                            | :heavy_check_mark: |                                                                                                                                                         |
-| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | -                  | -                  | -                  | :heavy_check_mark: (via [MoltenVK](https://github.com/KhronosGroup/MoltenVK)) | :heavy_check_mark: |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| Platform                                                                                                                                        | D3D11              | D3D12              |  OpenGL/GLES       | Vulkan                          | Metal                           |  Build Status                    |
+| ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |------------------- | ------------------ | ------------------------------- | ------------------------------- | -------------------------------- |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/windows-logo.png" width=24 valign="middle"> Win32 (Windows desktop)| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/uwindows-logo.png" width=24 valign="middle"> Universal Windows     | :heavy_check_mark: | :heavy_check_mark: | -                  | -                               | -                               |  [![Build Status](https://ci.appveyor.com/api/projects/status/github/DiligentGraphics/DiligentEngine?svg=true)](https://ci.appveyor.com/project/DiligentGraphics/diligentengine) |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/linux-logo.png" width=24 valign="middle"> Linux                    | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/macos-logo.png" width=24 valign="middle"> MacOS                    | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/android-logo.png" width=24 valign="middle"> Android                | -                  | -                  | :heavy_check_mark: | :heavy_check_mark:              | -                               |                                                                                                                                                         |
+| <img src="https://github.com/DiligentGraphics/DiligentCore/blob/master/media/apple-logo.png" width=24 valign="middle"> iOS                      | -                  | -                  | :heavy_check_mark: | :heavy_check_mark: <sup>1</sup> | :heavy_check_mark: <sup>2</sup> |  [![Build Status](https://travis-ci.org/DiligentGraphics/DiligentEngine.svg?branch=master)](https://travis-ci.org/DiligentGraphics/DiligentEngine)      |
+
+<sup>1</sup> Vulkan API is not natively supported on MacOS and iOS platforms and requires a Vulkan portability implementation such as [MoltenVK](https://github.com/KhronosGroup/MoltenVK)
+or [gfx-portability](https://github.com/gfx-rs/portability).
+
+<sup>2</sup> Available under commercial license - please contact us for details.
 
 # Table of Contents
 
@@ -664,6 +670,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | [18 - Queries](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial18_Queries) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial18_Queries/Animation_Small.gif) | This tutorial demonstrates how to use queries to retrieve various information about the GPU operation, such as the number of primitives rendered, command processing duration, etc. |
 | [19 - Render Passes](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial19_RenderPasses) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial19_RenderPasses/Animation_Small.gif) | This tutorial demonstrates how to use the render passes API to implement simple deferred shading. |
 | [20 - Mesh Shader](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial20_MeshShader) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial20_MeshShader/Animation_Small.gif) | This tutorial demonstrates how to use amplification and mesh shaders, the new programmable stages, to implement view frustum culling and object LOD calculation on the GPU. |
+| [21 - Ray Tracing](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial21_RayTracing) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Tutorials/Tutorial21_RayTracing/Animation_Small.gif) | This tutorial demonstrates the basics of using ray tracing API in Diligent Engine. |
 
 <a name="samples"></a>
 # [Samples](https://github.com/DiligentGraphics/DiligentSamples)
@@ -671,6 +678,7 @@ Please refer to [this page](https://github.com/DiligentGraphics/DiligentCore#api
 | Sample     | Screenshot  | Description          |
 |------------|-------------|----------------------|
 | [Atmosphere Sample](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Atmosphere) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Atmosphere/Animation_Small.gif) | This sample demonstrates how to integrate [Epipolar Light Scattering](https://github.com/DiligentGraphics/DiligentFX/tree/master/PostProcess/EpipolarLightScattering) post-processing effect into an application to render physically-based atmosphere. |
+| [GLFW Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLFWDemo) | ![](https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/GLFWDemo/Animation_Small.gif) | This maze mini-game demonstrates how to use GLFW to create window and handle keyboard and mouse input. |
 | [GLTF Viewer](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/GLTFViewer) | <img src="https://github.com/DiligentGraphics/DiligentFX/blob/master/GLTF_PBR_Renderer/screenshots/flight_helmet.jpg" width=240> | This sample demonstrates how to use the [Asset Loader](https://github.com/DiligentGraphics/DiligentTools/tree/master/AssetLoader) and [GLTF PBR Renderer](https://github.com/DiligentGraphics/DiligentFX/tree/master/GLTF_PBR_Renderer) to load and render GLTF models. |
 | [Shadows](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/Shadows) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/Shadows/Screenshot.jpg" width=240> | This sample demonstrates how to use the [Shadowing component](https://github.com/DiligentGraphics/DiligentFX/tree/master/Components#shadows) to render high-quality shadows. |
 | [Dear ImGui Demo](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Samples/ImguiDemo) | <img src="https://github.com/DiligentGraphics/DiligentSamples/blob/master/Samples/ImguiDemo/Screenshot.png" width=240> | This sample demonstrates the integration of the engine with [dear imgui](https://github.com/ocornut/imgui) UI library. |
@@ -747,8 +755,10 @@ This project has some third-party dependencies, each of which may have independe
 
 To contribute your code, submit a [Pull Request](https://github.com/DiligentGraphics/DiligentEngine/pulls) 
 to this repository. **Diligent Engine** is licensed under the [Apache 2.0 license](License.txt) that guarantees 
-that code in the **DiligentEngine** repository is free of Intellectual Property encumbrances. In submitting code to
-this repository, you are agreeing that the code is free of any Intellectual Property claims.  
+that content in the **DiligentEngine** repository is free of Intellectual Property encumbrances.
+In submitting any content to this repository,
+[you license that content under the same terms](https://docs.github.com/en/free-pro-team@latest/github/site-policy/github-terms-of-service#6-contributions-under-repository-license),
+and you agree that the content is free of any Intellectual Property claims and you have the right to license it under those terms. 
 
 Diligent Engine uses [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to ensure
 consistent source code style throught the code base. The format is validated by appveyor and travis
@@ -759,7 +769,11 @@ on how to set up clang-format and automatic code formatting.
 <a name="references"></a>
 # References
 
-[API Reference](https://cdn.rawgit.com/DiligentGraphics/DiligentCore/4949ec8a/doc/html/index.html)
+[Coding Guidelines](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/CodingGuidelines.md)
+
+[Performance Best Practices](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/PerformanceGuide.md)
+
+[Code Formatting](https://github.com/DiligentGraphics/DiligentCore/blob/master/doc/code_formatting.md)
 
 
 <a name="release_history"></a>
