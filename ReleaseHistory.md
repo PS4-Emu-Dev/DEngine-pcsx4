@@ -1,3 +1,162 @@
+## v2.5.4
+
+### API Changes
+
+* Use thread group count X/Y/Z for mesh draw commands (API253012)
+* Added `ShaderMacroArray` struct (API253011)
+  * The `Macros` member of `ShaderCreateInfo` struct is now of type `ShaderMacroArray`
+* Replaced `ResourceMappingDesc` with `ResourceMappingCreateInfo` (API253010)
+  * Use `ResourceMappingCreateInfo::NumEntries` to define the number of entries instead of the trailing null entry
+* Removed `ShaderCreateInfo::ppConversionStream` (API253009)
+* Removed `ppCompilerOutput` member of the `ShaderCreateInfo` struct and added it as parameter to the `IRenderDevice::CreateShader` method (API253008)
+* Added `IPipelineStateGL::GetGLProgramHandle` and `IShaderGL::GetGLShaderHandle` methods (API253007)
+* Enabled read-only depth-stencil buffers (API253006)
+  * Added `TEXTURE_VIEW_READ_ONLY_DEPTH_STENCIL` view type
+  * Added `UseReadOnlyDSV` member to `GraphicsPipelineDesc` struct
+* Added `PSO_CACHE_FLAGS` enum and `PipelineStateCacheDesc::Flags` member (API253005)
+* Archiver and render state cache: added content version (API253004)
+* Added `RenderDeviceShaderVersionInfo` struct and `RenderDeviceInfo::MaxShaderVersion` member (API253003)
+* Added texture component swizzle (API253002)
+  * Added `TEXTURE_COMPONENT_SWIZZLE` enum and `TextureComponentMapping` struct
+  * Added `Swizzle` member to `TextureViewDesc` struct
+  * Added `TextureComponentSwizzle` member to `DeviceFeatures` struct
+* Added shader constant buffer reflection API (API253001)
+  * Added `SHADER_CODE_BASIC_TYPE` and `SHADER_CODE_VARIABLE_CLASS` enums
+  * Added `ShaderCodeVariableDesc` and `ShaderCodeBufferDesc` structs
+  * Added `IShader::GetConstantBufferDesc` method
+
+### Samples and Tutorials
+
+* Added [Tutorial03 - Texturing for DotNet](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial03_Texturing-DotNet)
+
+
+## v2.5.3
+
+### API Changes
+
+* Added `RENDER_STATE_CACHE_LOG_LEVEL` enum, replaced `EnableLogging` member of `RenderStateCacheCreateInfo` struct with `LoggingLevel` (API252009)
+* Added `IPipelineResourceSignature::CopyStaticResources` and `IPipelineState::CopyStaticResources` methods (API252008)
+* Added render state cache (`IRenderStateCache` interface and related data types) (API252007)
+* Moved `UseCombinedTextureSamplers` and `CombinedSamplerSuffix` members from `ShaderCreateInfo` to `ShaderDesc` (API252006)
+* Added `IntanceLayerCount` and `ppInstanceLayerNames` members to EngineVkCreateInfo struct (API252005)
+* Added `IgnoreDebugMessageCount` and `ppIgnoreDebugMessageNames` to `EngineVkCreateInfo` struct (API252004)
+* Refactored archiver API (removed `IDeviceObjectArchive` and `IArchive`; enabled dearchiver
+  to load multiple archives to allow storing signatures and pipelines separately) (API252003)
+* Added `SET_SHADER_RESOURCES_FLAGS` enum and `Flags` parameter to `IShaderResourceVariable::Set`
+  and `IShaderResourceVariable::SetArray` methods (API252002)
+* Added primitive topologies with adjacency (API252001)
+
+### Samples and Tutorials
+
+* Added [Tutorial25 - Render State Packager](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial25_StatePackager)
+* Added [Tutorial26 - Render State Cache](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial26_StateCache)
+
+
+## v2.5.2
+
+### API Changes
+
+* Added `SamplerDesc::UnnormalizedCoords` parameter (API Version 250014)
+* Added device object serialization/deserialization (API Version 250013)
+* Added pipeline state cache (API Version 250012)
+
+
+## v2.5.1
+
+### API Changes
+
+* Enabled emscripten platform
+* Added subsampled render targets for VRS (API Version 250011)
+* Added sparse resources (API Version 250010)
+* Updated API to use 64bit offsets for GPU memory (API Version 250009)
+* Reworked draw indirect command attributes (moved buffers into the attribs structs), removed DrawMeshIndirectCount (API Version 250008)
+* Enabled indirect multidraw commands (API Version 250007)
+* Enabled variable rate shading (API Version 250006)
+* Added 'TransferQueueTimestampQueries' feature (API Version 250005)
+* Added 'RESOURCE_STATE_COMMON' state; added `STATE_TRANSITION_FLAGS` enum and replaced
+  `StateTransitionDesc::UpdateResourceState` with `STATE_TRANSITION_FLAGS Flags` (API Version 250004)
+* Added `ComputeShaderProperties` struct (API Version 250003)
+* Added `IShaderResourceBinding::CheckResources` method and `SHADER_RESOURCE_VARIABLE_TYPE_FLAGS` enum (API Version 250002)
+* Removed `IShaderResourceVariable::IsBound` with `IShaderResourceVariable::Get` (API Version 250001)
+
+### Samples and Tutorials
+
+* Added [Tutorial23 - Command Queues](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial23_CommandQueues)
+* Added [Tutorial24 - Variable rate shading](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial24_VRS)
+
+
+## v2.5
+
+### API Changes
+
+* Removed `RayTracing2` device feature and added `RAY_TRACING_CAP_FLAGS` enum (API Version 240099)
+* Added tile shaders (API Version 240098)
+  * Added `PIPELINE_TYPE_TILE` and `SHADER_TYPE_TILE` enum values
+  * Added `TileShaders` device feature
+  * Added `TilePipelineDesc`, `TilePipelineStateCreateInfo` and `DispatchTileAttribs` structs
+  * Added `IRenderDevice::CreateTilePipelineState`, `IPipelineState::GetTilePipelineDesc`,
+    `IDeviceContext::DispatchTile` and `IDeviceContext::GetTileSize` methods
+* Removed `GetNextFenceValue`, `GetCompletedFenceValue`, and `IsFenceSignaled` methods from `IRenderDeviceD3D12` and `IRenderDeviceVk` interfaces
+  as they are now in `ICommandQueue` interface (API Version 240097)
+* Added `ICommandQueue` interface, `IDeviceContext::LockCommandQueue` and `IDeviceContext::UnlockCommandQueue` methods,
+  removed fence query methods from `IRenderDeviceVk`, `IRenderDeviceD3D12`, and `IRenderDeviceMtl` (API Version 240096)
+* Added multiple immediate device contexts and refactored adapter queries (API Version 240095)
+  * `CommandQueueMask` member of `TextureDesc`, `BufferDesc`, `PipelineStateDesc`, `TopLevelASDesc`,
+    and `BottomLevelASDesc`, was renamed to `ImmediateContextMask`
+  * Added `pContext` member to `TextureData` and `BufferData` structs to indicate which context to
+    use for initialization.
+  * Removed `GetDeviceCaps` and `GetDeviceProperties` `IDeviceContext` methods and added
+   `GetDeviceInfo` and `GetAdapterInfo` methods; added `RenderDeviceInfo` struct.
+  * Renamed `SamplerCaps` to `SamplerProperties, `TextureCaps` to `TextureProperties`; added `BufferProperties`,
+    `RayTracingProperties`, and `MeshShaderProperties` structs
+  * Removed `DeviceLimits` struct
+  * Removed `DeviceCaps` struct and moved its members to `GraphicsAdapterInfo` and `RenderDeviceInfo` structs
+  * Added `NativeFence` to `DeviceFeatures`
+  * Added `CommandQueueInfo` struct
+  * Added `COMMAND_QUEUE_TYPE` and `QUEUE_PRIORITY` enums
+  * Renamed `ShaderVersion` struct to `Version`
+  * Reworked `GraphicsAdapterInfo` struct
+  * Added `ImmediateContextCreateInfo` struct and `pImmediateContextInfo`, `NumImmediateContexts` members to `EngineCreateInfo` struct
+  * Added `AdapterId` and `GraphicsAPIVersion` members to `EngineCreateInfo` struct
+  * Removed `DIRECT3D_FEATURE_LEVEL` enum
+  * Added `FENCE_TYPE` enum
+  * Renamed `IFence::Reset` to `IFence::Signal`; added `IFence::Wait` method
+  * Added `IEngineFactory::EnumerateAdapters` method
+  * Added `DeviceContextDesc` struct and `IDeviceContext::GetDesc` method
+  * Added `IDeviceContext::Begin` method, renamed `IDeviceContext::SignalFence` to `IDeviceContext::EnqueueSignal`
+* Added debug annotations `IDeviceContext::BeginDebugGroup`, `IDeviceContext::EndDebugGroup`,
+ `IDeviceContext::InsertDebugLabel` (API Version 240095)
+* Added `DefaultVariableMergeStages` member to `PipelineResourceLayoutDesc` struct (API240094)
+* Added `IShaderResourceVariable::SetBufferRange` and `IShaderResourceVariable::SetBufferOffset` methods,
+  added `DeviceLimits` struct (API240093)
+* Updated API to allow explicitly flushing/invlidating mapped buffer memory range :
+  added `MEMORY_PROPERTIES` enum, `IBuffer::GetMemoryProperties()`, `IBuffer::FlushMappedRange()`,
+  and `IBuffer::InvalidateMappedRange()` methods (API240092)
+* Added `IDeviceContext::SetUserData()` and `IDeviceContext::GetUserData()` methods (API240091)
+* Added `SHADER_VARIABLE_FLAGS` enum and `SHADER_VARIABLE_FLAGS Flags` member to ShaderResourceVariableDesc struct (API240090)
+* Reworked validation options (API240089)
+  * Added `VALIDATION_FLAGS` and `D3D12_VALIDATION_FLAGS` enums; renamed `D3D11_DEBUG_FLAGS` to `D3D11_VALIDATION_FLAGS`
+  * Added `VALIDATION_FLAGS ValidationFlags` and `bool EnableValidation` to `EngineCreateInfo`
+  * Added `D3D12_VALIDATION_FLAGS D3D12ValidationFlags` to `EngineD3D12CreateInfo`; removed `EnableDebugLayer`, `EnableGPUBasedValidation`,
+    `BreakOnError`, `BreakOnCorruption`
+  * Added `VALIDATION_LEVEL` enum and `SetValidationLevel()` create info structs' helper functions
+  * Removed `EngineGLCreateInfo::CreateDebugContext` member (it is replaced with `EnableValidation`)
+* Added `MtlThreadGroupSizeX`, `MtlThreadGroupSizeY`, and `MtlThreadGroupSizeZ` members to
+  `DispatchComputeAttribs` and `DispatchComputeIndirectAttribs` structs (API Version 240088)
+* Added InstanceDataStepRate device feature (API Version 240087)
+* Added WaveOp device feature (API Version 240086)
+* Added UpdateSBT command (API Version 240085)
+* Removed `EngineD3D12CreateInfo::NumCommandsToFlushCmdList` and `EngineVkCreateInfo::NumCommandsToFlushCmdBuffer` as flushing
+  the context based on the number of commands is unreasonable (API Version 240084)
+* Added pipeline resource signatures, enabled inline ray tracing, added indirect draw mesh command (API Version 240083)
+* Replaced `IDeviceContext::ExecuteCommandList()` with `IDeviceContext::ExecuteCommandLists()` method that takes
+  an array of command lists instead of one (API Version 240082)
+* Added `IDeviceObject::SetUserData()` and `IDeviceObject::GetUserData()` methods (API Version 240081)
+
+### Samples and Tutorials
+
+* Added [Tutorial22 - Hybrid Rendering](https://github.com/DiligentGraphics/DiligentSamples/tree/master/Tutorials/Tutorial22_HybridRendering)
+
 
 ## v2.4.g
 
@@ -391,7 +550,7 @@ Core:
   * Replaced `COMMIT_SHADER_RESOURCES_FLAGS` enum with `RESOURCE_STATE_TRANSITION_MODE`
   * Added `ITextureD3D12::GetD3D12ResourceState()`, `IBufferD3D12::GetD3D12ResourceState()`,
     `IBufferVk::GetAccessFlags()`, and `ITextureVk::GetLayout()` methods
-  * Added `CopyTextureAttribs` structure that combines all paramters of `IDeviceContext::CopyTexture()` method
+  * Added `CopyTextureAttribs` structure that combines all parameters of `IDeviceContext::CopyTexture()` method
 
 ## v2.3.b
 
